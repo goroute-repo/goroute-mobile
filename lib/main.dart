@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:goroute_mobile/app.dart';
+import 'package:goroute_mobile/core/auth/session_store.dart';
+import 'package:goroute_mobile/core/config/app_config.dart';
+import 'package:goroute_mobile/core/providers/core_providers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const GoRouteApp());
-}
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final config = AppConfig.resolve();
 
-class GoRouteApp extends StatelessWidget {
-  const GoRouteApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'GoRoute',
-      theme: ThemeData(colorSchemeSeed: Colors.indigo, useMaterial3: true),
-      home: const HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('GoRoute Mobile')),
-      body: const Center(
-        child: Text('SPEC-15 — app Flutter mínimo (roadmap + auth em releases futuras).'),
-      ),
-    );
-  }
+  runApp(
+    ProviderScope(
+      overrides: [
+        appConfigProvider.overrideWithValue(config),
+        sessionStoreProvider.overrideWithValue(SessionStore()),
+        sharedPreferencesProvider.overrideWithValue(prefs),
+      ],
+      child: const GoRouteApp(),
+    ),
+  );
 }

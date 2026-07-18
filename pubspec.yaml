@@ -1,5 +1,5 @@
 name: goroute_mobile
-description: GoRoute mobile app (SPEC-15 scaffold)
+description: GoRoute mobile app (SPEC-15 — auth + roadmap MVP)
 publish_to: none
 version: 0.1.0+1
 
@@ -9,7 +9,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^1.2.2
+  dio: ^5.7.0
+  flutter_secure_storage: ^9.2.2
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: ^3.3.2
+  go_router: ^17.3.0
+  intl: ^0.20.2
+  shared_preferences: ^2.5.5
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +26,4 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
