@@ -111,19 +111,25 @@
   "mentorPrefillNext": "No que devo focar em seguida para {label}?",
   "@mentorPrefillNext": {
     "placeholders": {
-      "label": { "type": "String" }
+      "label": {
+        "type": "String"
+      }
     }
   },
   "mentorPrefillNode": "Como avanço em {label}?",
   "@mentorPrefillNode": {
     "placeholders": {
-      "label": { "type": "String" }
+      "label": {
+        "type": "String"
+      }
     }
   },
   "mentorPrefillJob": "Como fecho o gap de skills para {label}?",
   "@mentorPrefillJob": {
     "placeholders": {
-      "label": { "type": "String" }
+      "label": {
+        "type": "String"
+      }
     }
   },
   "aboutTitle": "Sobre o GoRoute",
@@ -152,8 +158,12 @@
   "weeklyTasksDone": "{done} de {total} concluídas",
   "@weeklyTasksDone": {
     "placeholders": {
-      "done": { "type": "int" },
-      "total": { "type": "int" }
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "weeklyTip": "Dica: faça o estudo primeiro e depois o projeto prático.",
@@ -177,15 +187,44 @@
   "aboutVersion": "Versão {version}",
   "@aboutVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "nodeHours": "{logged} / {estimated} h registradas",
   "@nodeHours": {
     "placeholders": {
-      "logged": { "type": "int" },
-      "estimated": { "type": "int" }
+      "logged": {
+        "type": "int"
+      },
+      "estimated": {
+        "type": "int"
+      }
     }
   },
-  "nodeNotes": "Notas"
+  "nodeNotes": "Notas",
+  "noAccount": "Ainda não tem conta?",
+  "createAccount": "Criar conta",
+  "signUpTitle": "Crie sua conta",
+  "signUpSubtitle": "Leve seu roadmap de carreira para o bolso.",
+  "confirmPassword": "Confirmar senha",
+  "acceptTerms": "Li e aceito os Termos de Uso e a Política de Privacidade.",
+  "signingUp": "Criando conta…",
+  "errorWeakPassword": "A senha precisa ter pelo menos 8 caracteres.",
+  "errorEmailInUse": "Este e-mail já está cadastrado.",
+  "errorTermsRequired": "Você precisa aceitar os termos para continuar.",
+  "passwordMismatch": "As senhas não coincidem.",
+  "accountCreatedSuccess": "Conta criada! Entre para continuar.",
+  "backToLogin": "Voltar para o login",
+  "aiManagedNotEntitled": "Mentor IA managed exige assinatura Plano Semanal.",
+  "mentorScopeInTrack": "Dentro da sua trilha",
+  "mentorScopeSoftSkills": "Soft skill",
+  "mentorScopeOutOfScope": "Fora da sua trilha",
+  "skillsTitle": "Skills",
+  "skillTrackTitle": "Trilha técnica",
+  "learnByDoing": "Learn by Doing",
+  "levelBeginner": "Iniciante",
+  "levelIntermediate": "Intermediário",
+  "levelAdvanced": "Avançado"
 }

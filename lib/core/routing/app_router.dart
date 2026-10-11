@@ -5,6 +5,7 @@ import 'package:goroute_mobile/core/providers/core_providers.dart';
 import 'package:goroute_mobile/core/widgets/loading_view.dart';
 import 'package:goroute_mobile/features/auth/login_mfa_page.dart';
 import 'package:goroute_mobile/features/auth/login_page.dart';
+import 'package:goroute_mobile/features/auth/register_page.dart';
 import 'package:goroute_mobile/features/home/home_page.dart';
 import 'package:goroute_mobile/features/jobs/job_detail_page.dart';
 import 'package:goroute_mobile/features/jobs/jobs_page.dart';
@@ -68,6 +69,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               }
               return LoginMfaPage(tempToken: token);
             },
+          ),
+          GoRoute(
+            path: 'register',
+            builder: (context, state) => const RegisterPage(),
           ),
         ],
       ),
@@ -158,7 +163,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: '/app/about',
-        builder: (context, state) => const AboutPage(),
+        builder: (context, state) =>
+            AboutPage(scrollToHelp: state.extra == true),
       ),
       GoRoute(
         path: '/boot',

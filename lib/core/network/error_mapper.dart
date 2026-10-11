@@ -7,6 +7,7 @@ import 'package:goroute_mobile/l10n/app_localizations.dart';
 String mapErrorMessage(Object error, AppLocalizations l10n) {
   if (error is ApiException) {
     if (error.isPremiumRequired) return l10n.premiumRequired;
+    if (error.isAiManagedNotEntitled) return l10n.aiManagedNotEntitled;
     if (error.isNotEligible) return l10n.jobApplyNotEligible;
     if (error.isUnauthorized) return l10n.sessionExpired;
     if (error.message.toLowerCase().contains('connection')) {
@@ -34,6 +35,7 @@ String mapErrorMessage(Object error, AppLocalizations l10n) {
     }
     final mapped = mapDioToApiException(error, l10n.unexpectedError);
     if (mapped.isPremiumRequired) return l10n.premiumRequired;
+    if (mapped.isAiManagedNotEntitled) return l10n.aiManagedNotEntitled;
     if (mapped.isNotEligible) return l10n.jobApplyNotEligible;
     if (mapped.isUnauthorized) return l10n.sessionExpired;
     if (error.message?.toLowerCase().contains('connection') == true) {

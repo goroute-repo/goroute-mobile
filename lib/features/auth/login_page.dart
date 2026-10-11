@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:goroute_mobile/core/network/error_mapper.dart';
 import 'package:goroute_mobile/core/providers/core_providers.dart';
 import 'package:goroute_mobile/core/theme/app_theme.dart';
+import 'package:goroute_mobile/core/widgets/dashboard_widgets.dart';
 import 'package:goroute_mobile/features/auth/auth_repository.dart';
 import 'package:goroute_mobile/l10n/app_localizations.dart';
 
@@ -60,25 +61,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
+      body: BrandHeaderBackground(
+        child: SafeArea(
+          child: ListView(
           padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
           children: [
-            Container(
-              width: 56,
-              height: 56,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: AppTheme.seed,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                'GR',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                    ),
-              ),
+            Image.asset(
+              'assets/brand/logo-mark.png',
+              width: 64,
+              height: 64,
             ),
             const SizedBox(height: 20),
             Text(
@@ -142,7 +133,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               onPressed: _busy ? null : _submit,
               child: Text(_busy ? l10n.signingIn : l10n.signIn),
             ),
-          ],
+            const SizedBox(height: 16),
+            Center(
+              child: TextButton(
+                onPressed: _busy ? null : () => context.push('/login/register'),
+                child: Text('${l10n.noAccount} ${l10n.createAccount}'),
+              ),
+            ),
+            ],
+          ),
         ),
       ),
     );

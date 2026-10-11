@@ -10,6 +10,8 @@ class ApiException implements Exception {
 
   bool get isPremiumRequired => code == 'PREMIUM_REQUIRED';
 
+  bool get isAiManagedNotEntitled => code == 'AI_MANAGED_NOT_ENTITLED';
+
   bool get isNotEligible => code == 'JOB_APPLY_NOT_ELIGIBLE';
 
   bool get isUnauthorized =>

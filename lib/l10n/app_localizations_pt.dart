@@ -510,4 +510,77 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get nodeNotes => 'Notas';
+
+  @override
+  String get noAccount => 'Ainda não tem conta?';
+
+  @override
+  String get createAccount => 'Criar conta';
+
+  @override
+  String get signUpTitle => 'Crie sua conta';
+
+  @override
+  String get signUpSubtitle => 'Leve seu roadmap de carreira para o bolso.';
+
+  @override
+  String get confirmPassword => 'Confirmar senha';
+
+  @override
+  String get acceptTerms =>
+      'Li e aceito os Termos de Uso e a Política de Privacidade.';
+
+  @override
+  String get signingUp => 'Criando conta…';
+
+  @override
+  String get errorWeakPassword =>
+      'A senha precisa ter pelo menos 8 caracteres.';
+
+  @override
+  String get errorEmailInUse => 'Este e-mail já está cadastrado.';
+
+  @override
+  String get errorTermsRequired =>
+      'Você precisa aceitar os termos para continuar.';
+
+  @override
+  String get passwordMismatch => 'As senhas não coincidem.';
+
+  @override
+  String get accountCreatedSuccess => 'Conta criada! Entre para continuar.';
+
+  @override
+  String get backToLogin => 'Voltar para o login';
+
+  @override
+  String get aiManagedNotEntitled =>
+      'Mentor IA managed exige assinatura Plano Semanal.';
+
+  @override
+  String get mentorScopeInTrack => 'Dentro da sua trilha';
+
+  @override
+  String get mentorScopeSoftSkills => 'Soft skill';
+
+  @override
+  String get mentorScopeOutOfScope => 'Fora da sua trilha';
+
+  @override
+  String get skillsTitle => 'Skills';
+
+  @override
+  String get skillTrackTitle => 'Trilha técnica';
+
+  @override
+  String get learnByDoing => 'Learn by Doing';
+
+  @override
+  String get levelBeginner => 'Iniciante';
+
+  @override
+  String get levelIntermediate => 'Intermediário';
+
+  @override
+  String get levelAdvanced => 'Avançado';
 }

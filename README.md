@@ -19,35 +19,84 @@ flutter analyze
 | `dev` (default) | Sim (debug/profile Android) | Emulator `10.0.2.2:3010` / `:3000/api` |
 | `prod` | Não (release manifest) | Exige `https://` em `AUTH_BASE_URL` e `API_BASE_URL` |
 
-```bash
-# Dev / LAN em aparelho físico (NÃO use o APK prod release)
-# Release bloqueia HTTP; use debug (cleartext) + IP do PC na mesma subnet:
-flutter build apk --debug \
-  --dart-define=APP_FLAVOR=dev \
-  --dart-define=AUTH_BASE_URL=http://192.168.x.x:3010 \
-  --dart-define=API_BASE_URL=http://192.168.x.x:3000/api
-# APK: build/app/outputs/flutter-apk/app-debug.apk
-# Default 10.0.2.2 só funciona no emulador Android.
+## Gerar / atualizar o APK (aparelho físico)
 
-# Release prod (HTTPS only)
-flutter build apk --release \
-  --dart-define=APP_FLAVOR=prod \
-  --dart-define=AUTH_BASE_URL=https://auth.example.com \
-  --dart-define=API_BASE_URL=https://api.example.com/api
-```
+Use **debug** para testar no celular contra o PC na mesma Wi‑Fi. Release bloqueia HTTP.
 
-APK release: `build/app/outputs/flutter-apk/app-release.apk`
-
-### adb (Windows)
+### 1. Descobrir o IP do PC (Windows)
 
 ```powershell
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" install -r build/app/outputs/flutter-apk/app-release.apk
+ipconfig
+```
+
+Procure o IPv4 da placa em uso (ex.: `192.168.100.3`). Não use `10.0.2.2` (só emulador) nem `127.0.0.1` (só o próprio PC).
+
+### 2. Subir auth + API no PC
+
+- Auth na porta **3010**
+- BFF na porta **3000**
+- Celular e PC na **mesma rede**
+
+### 3. Build do APK debug
+
+No diretório `goroute-mobile`, troque o IP pelo do passo 1 (ex.: `192.168.100.3`).
+
+**PowerShell** — uma linha só (`\` do Bash **não** funciona no PowerShell):
+
+```powershell
+flutter pub get
+flutter build apk --debug --dart-define=APP_FLAVOR=dev --dart-define=AUTH_BASE_URL=http://192.168.100.3:3010 --dart-define=API_BASE_URL=http://192.168.100.3:3000/api
+```
+
+**Git Bash / macOS / Linux** (quebra de linha com `\`):
+
+```bash
+flutter pub get
+flutter build apk --debug \
+  --dart-define=APP_FLAVOR=dev \
+  --dart-define=AUTH_BASE_URL=http://192.168.100.3:3010 \
+  --dart-define=API_BASE_URL=http://192.168.100.3:3000/api
+```
+
+Saída: `build/app/outputs/flutter-apk/app-debug.apk`
+
+### 4. Instalar / atualizar no celular
+
+**USB (adb)** — sobrescreve a instalação anterior (`-r`):
+
+```powershell
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" install -r build\app\outputs\flutter-apk\app-debug.apk
+```
+
+**Sem cabo:** copie o `app-debug.apk` para o celular e abra o arquivo (permitir instalar de fontes desconhecidas).
+
+### 5. Quando rebuildar de novo
+
+Refaça os passos **3** e **4** sempre que:
+
+- mudar código do app;
+- o IP do PC mudar (rede/DHCP);
+- quiser apontar para outro backend.
+
+O APK embute as URLs no build — mudar só o backend no PC **não** atualiza um APK antigo.
+
+### Release prod (HTTPS only)
+
+```powershell
+flutter build apk --release --dart-define=APP_FLAVOR=prod --dart-define=AUTH_BASE_URL=https://auth.example.com --dart-define=API_BASE_URL=https://api.example.com/api
+```
+
+Saída: `build/app/outputs/flutter-apk/app-release.apk`
+
+```powershell
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" install -r build\app\outputs\flutter-apk\app-release.apk
 ```
 
 ## URLs de teste
 
 | Ambiente | Auth | BFF |
 |----------|------|-----|
+| Aparelho físico (LAN) | `http://<IP-do-PC>:3010` | `http://<IP-do-PC>:3000/api` |
 | Emulator (`AppConfig.local` / resolve dev) | `http://10.0.2.2:3010` | `http://10.0.2.2:3000/api` |
 | Desktop / unit tests | `http://127.0.0.1:3010` | `http://127.0.0.1:3000/api` |
 

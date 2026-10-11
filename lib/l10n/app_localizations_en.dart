@@ -509,4 +509,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nodeNotes => 'Notes';
+
+  @override
+  String get noAccount => 'Don\'t have an account?';
+
+  @override
+  String get createAccount => 'Create account';
+
+  @override
+  String get signUpTitle => 'Create your account';
+
+  @override
+  String get signUpSubtitle => 'Take your career roadmap with you.';
+
+  @override
+  String get confirmPassword => 'Confirm password';
+
+  @override
+  String get acceptTerms =>
+      'I\'ve read and accept the Terms of Use and the Privacy Policy.';
+
+  @override
+  String get signingUp => 'Creating account…';
+
+  @override
+  String get errorWeakPassword => 'Password must be at least 8 characters.';
+
+  @override
+  String get errorEmailInUse => 'This email is already registered.';
+
+  @override
+  String get errorTermsRequired => 'You need to accept the terms to continue.';
+
+  @override
+  String get passwordMismatch => 'Passwords don\'t match.';
+
+  @override
+  String get accountCreatedSuccess => 'Account created! Sign in to continue.';
+
+  @override
+  String get backToLogin => 'Back to sign in';
+
+  @override
+  String get aiManagedNotEntitled =>
+      'AI Mentor (managed) requires the Weekly plan subscription.';
+
+  @override
+  String get mentorScopeInTrack => 'On your track';
+
+  @override
+  String get mentorScopeSoftSkills => 'Soft skill';
+
+  @override
+  String get mentorScopeOutOfScope => 'Outside your track';
+
+  @override
+  String get skillsTitle => 'Skills';
+
+  @override
+  String get skillTrackTitle => 'Technical track';
+
+  @override
+  String get learnByDoing => 'Learn by Doing';
+
+  @override
+  String get levelBeginner => 'Beginner';
+
+  @override
+  String get levelIntermediate => 'Intermediate';
+
+  @override
+  String get levelAdvanced => 'Advanced';
 }

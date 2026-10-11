@@ -85,7 +85,7 @@ class MorePage extends ConsumerWidget {
                   title: Text(l10n.connectionHelpTitle),
                   subtitle: Text(l10n.connectionHelpShort),
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: () => context.push('/app/about'),
+                  onTap: () => context.push('/app/about', extra: true),
                 ),
               ],
             ),

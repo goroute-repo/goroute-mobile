@@ -82,6 +82,50 @@ class AuthRepository {
     }
   }
 
+  /// Cadastro de conta profissional — espelha `registerUser` do
+  /// goroute-frontend (POST /users/register). Não faz login automático:
+  /// o backend exige um login separado depois, igual ao fluxo web.
+  Future<void> registerProfessional({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _client.raw.post<Map<String, dynamic>>(
+        '${_client.authBaseUrl}/users/register',
+        data: {
+          'email': email.trim(),
+          'password': password,
+          'acceptedTerms': true,
+          // ponytail: versões replicadas do goroute-frontend
+          // (core/legal/legal.config.ts) — mantenha os dois em sincronia
+          // com goroute-service-auth/src/common/legal-versions.ts.
+          'termsVersion': '2026-06-04',
+          'privacyVersion': '2026-06-04',
+        },
+        options: Options(
+          headers: {'X-Application-From': _client.applicationFrom},
+        ),
+      );
+    } on DioException catch (e) {
+      final status = e.response?.statusCode;
+      final code = (e.response?.data is Map)
+          ? (e.response!.data as Map)['error'] as String?
+          : null;
+      if (status == 409 || code == 'USER_EXISTS') {
+        throw AuthException('Email already registered.', code: 'USER_EXISTS');
+      }
+      if (code == 'WEAK_PASSWORD') {
+        throw AuthException('Weak password.', code: 'WEAK_PASSWORD');
+      }
+      if (code == 'TERMS_NOT_ACCEPTED' ||
+          code == 'TERMS_VERSION_MISMATCH' ||
+          code == 'PRIVACY_VERSION_MISMATCH') {
+        throw AuthException('Terms not accepted.', code: 'TERMS_NOT_ACCEPTED');
+      }
+      throw AuthException(e.message ?? 'Network error', code: 'NETWORK');
+    }
+  }
+
   Future<LoginResult> verifyMfa({
     required String tempToken,
     required String code,

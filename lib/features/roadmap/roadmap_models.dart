@@ -129,6 +129,8 @@ class RoadmapNodeDetail {
     this.startedAt,
     this.completedAt,
     this.prerequisites = const [],
+    this.skills = const [],
+    this.skillTracks = const [],
   });
 
   final String id;
@@ -142,6 +144,8 @@ class RoadmapNodeDetail {
   final String? startedAt;
   final String? completedAt;
   final List<RoadmapPrerequisite> prerequisites;
+  final List<String> skills;
+  final List<SkillTrack> skillTracks;
 
   bool get isLocked => state == 'locked';
   bool get canStart => state == 'available' || state == 'recommended';
@@ -149,6 +153,8 @@ class RoadmapNodeDetail {
 
   factory RoadmapNodeDetail.fromJson(Map<String, dynamic> json) {
     final prereqs = json['prerequisites'];
+    final skills = json['skills'];
+    final tracks = json['skillTracks'];
     return RoadmapNodeDetail(
       id: (json['id'] as String?) ?? '',
       label: (json['label'] as String?) ?? '',
@@ -169,6 +175,93 @@ class RoadmapNodeDetail {
               )
               .toList()
           : const [],
+      skills: skills is List
+          ? skills
+              .whereType<Map>()
+              .map((e) => e['label'])
+              .whereType<String>()
+              .toList()
+          : const [],
+      skillTracks: tracks is List
+          ? tracks.map(SkillTrack.tryParse).whereType<SkillTrack>().toList()
+          : const [],
+    );
+  }
+}
+
+class SkillResource {
+  const SkillResource({required this.kind, required this.title, required this.url});
+
+  final String kind;
+  final String title;
+  final String url;
+
+  static SkillResource? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final title = raw['title'];
+    final url = raw['url'];
+    if (title is! String || url is! String || url.isEmpty) return null;
+    return SkillResource(kind: (raw['kind'] as String?) ?? 'doc', title: title, url: url);
+  }
+}
+
+class SkillProject {
+  const SkillProject({required this.title, required this.brief, required this.criteria});
+
+  final String title;
+  final String brief;
+  final List<String> criteria;
+
+  static SkillProject? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final title = raw['title'];
+    if (title is! String || title.isEmpty) return null;
+    final ac = raw['acceptanceCriteria'];
+    return SkillProject(
+      title: title,
+      brief: (raw['brief'] as String?) ?? '',
+      criteria: ac is List ? ac.whereType<String>().toList() : const [],
+    );
+  }
+}
+
+/// Trilha de uma skill do cargo: cursos + Learn by Doing por nível.
+class SkillTrack {
+  const SkillTrack({
+    required this.slug,
+    required this.label,
+    this.resources = const [],
+    this.projects = const {},
+  });
+
+  final String slug;
+  final String label;
+  final List<SkillResource> resources;
+
+  /// Chaves: beginner, intermediate, advanced.
+  final Map<String, SkillProject> projects;
+
+  static SkillTrack? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final slug = raw['slug'];
+    final label = raw['label'];
+    if (slug is! String || label is! String) return null;
+    final res = raw['resources'];
+    final prj = raw['projects'];
+    final projects = <String, SkillProject>{};
+    if (prj is Map) {
+      for (final level in const ['beginner', 'intermediate', 'advanced']) {
+        final p = SkillProject.tryParse(prj[level]);
+        if (p != null) projects[level] = p;
+      }
+    }
+    return SkillTrack(
+      slug: slug,
+      label: label,
+      resources: res is List
+          ? res.map(SkillResource.tryParse).whereType<SkillResource>().toList()
+          : const [],
+      projects: projects,
     );
   }
 }

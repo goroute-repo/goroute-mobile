@@ -111,19 +111,25 @@
   "mentorPrefillNext": "What should I focus on next for {label}?",
   "@mentorPrefillNext": {
     "placeholders": {
-      "label": { "type": "String" }
+      "label": {
+        "type": "String"
+      }
     }
   },
   "mentorPrefillNode": "How do I progress on {label}?",
   "@mentorPrefillNode": {
     "placeholders": {
-      "label": { "type": "String" }
+      "label": {
+        "type": "String"
+      }
     }
   },
   "mentorPrefillJob": "How do I close the skill gap for {label}?",
   "@mentorPrefillJob": {
     "placeholders": {
-      "label": { "type": "String" }
+      "label": {
+        "type": "String"
+      }
     }
   },
   "aboutTitle": "About GoRoute",
@@ -152,8 +158,12 @@
   "weeklyTasksDone": "{done} of {total} done",
   "@weeklyTasksDone": {
     "placeholders": {
-      "done": { "type": "int" },
-      "total": { "type": "int" }
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "weeklyTip": "Tip: finish the study task first, then the practice project.",
@@ -177,15 +187,44 @@
   "aboutVersion": "Version {version}",
   "@aboutVersion": {
     "placeholders": {
-      "version": { "type": "String" }
+      "version": {
+        "type": "String"
+      }
     }
   },
   "nodeHours": "{logged} / {estimated} h logged",
   "@nodeHours": {
     "placeholders": {
-      "logged": { "type": "int" },
-      "estimated": { "type": "int" }
+      "logged": {
+        "type": "int"
+      },
+      "estimated": {
+        "type": "int"
+      }
     }
   },
-  "nodeNotes": "Notes"
+  "nodeNotes": "Notes",
+  "noAccount": "Don't have an account?",
+  "createAccount": "Create account",
+  "signUpTitle": "Create your account",
+  "signUpSubtitle": "Take your career roadmap with you.",
+  "confirmPassword": "Confirm password",
+  "acceptTerms": "I've read and accept the Terms of Use and the Privacy Policy.",
+  "signingUp": "Creating account…",
+  "errorWeakPassword": "Password must be at least 8 characters.",
+  "errorEmailInUse": "This email is already registered.",
+  "errorTermsRequired": "You need to accept the terms to continue.",
+  "passwordMismatch": "Passwords don't match.",
+  "accountCreatedSuccess": "Account created! Sign in to continue.",
+  "backToLogin": "Back to sign in",
+  "aiManagedNotEntitled": "AI Mentor (managed) requires the Weekly plan subscription.",
+  "mentorScopeInTrack": "On your track",
+  "mentorScopeSoftSkills": "Soft skill",
+  "mentorScopeOutOfScope": "Outside your track",
+  "skillsTitle": "Skills",
+  "skillTrackTitle": "Technical track",
+  "learnByDoing": "Learn by Doing",
+  "levelBeginner": "Beginner",
+  "levelIntermediate": "Intermediate",
+  "levelAdvanced": "Advanced"
 }

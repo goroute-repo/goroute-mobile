@@ -3,10 +3,38 @@ import 'package:goroute_mobile/core/theme/app_theme.dart';
 import 'package:goroute_mobile/l10n/app_localizations.dart';
 
 /// Store-facing identity + product help (Growth ASO + UX).
-class AboutPage extends StatelessWidget {
-  const AboutPage({super.key});
+class AboutPage extends StatefulWidget {
+  const AboutPage({super.key, this.scrollToHelp = false});
 
+  /// Quando aberto a partir de "Não conecta" no menu, rola direto até a
+  /// seção de ajuda em vez de abrir a página sempre do topo — eram duas
+  /// entradas de menu levando ao mesmo lugar sem indicar por quê.
+  final bool scrollToHelp;
+
+  @override
+  State<AboutPage> createState() => _AboutPageState();
+}
+
+class _AboutPageState extends State<AboutPage> {
   static const _version = '0.1.0';
+  final _helpKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.scrollToHelp) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final ctx = _helpKey.currentContext;
+        if (ctx != null) {
+          Scrollable.ensureVisible(
+            ctx,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +47,10 @@ class AboutPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(24, 16, 24, 40),
         children: [
-          Container(
+          Image.asset(
+            'assets/brand/logo-mark.png',
             width: 64,
             height: 64,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: AppTheme.seed,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              'GR',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
           ),
           const SizedBox(height: 16),
           Text(
@@ -84,6 +101,7 @@ class AboutPage extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           _Section(
+            key: _helpKey,
             title: l10n.connectionHelpTitle,
             body: l10n.connectionHelpBody,
           ),
@@ -94,7 +112,7 @@ class AboutPage extends StatelessWidget {
 }
 
 class _Section extends StatelessWidget {
-  const _Section({required this.title, required this.body});
+  const _Section({super.key, required this.title, required this.body});
 
   final String title;
   final String body;

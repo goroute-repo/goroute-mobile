@@ -7,6 +7,21 @@ import 'package:goroute_mobile/features/mentor/mentor_chat_store.dart';
 import 'package:goroute_mobile/features/mentor/mentor_models.dart';
 import 'package:goroute_mobile/l10n/app_localizations.dart';
 
+/// Mapeia o `scope` cru da API ("in_track" / "soft_skills" /
+/// "out_of_scope") para um rótulo amigável — nunca mostra o código bruto.
+String? _scopeLabel(String? scope, AppLocalizations l10n) {
+  switch (scope) {
+    case 'in_track':
+      return l10n.mentorScopeInTrack;
+    case 'soft_skills':
+      return l10n.mentorScopeSoftSkills;
+    case 'out_of_scope':
+      return l10n.mentorScopeOutOfScope;
+    default:
+      return null;
+  }
+}
+
 class MentorPage extends ConsumerStatefulWidget {
   const MentorPage({super.key, this.extra});
 
@@ -178,11 +193,11 @@ class _MentorPageState extends ConsumerState<MentorPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              if (m.scope != null)
+                              if (!isUser && _scopeLabel(m.scope, l10n) != null)
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 4),
                                   child: Text(
-                                    m.scope!,
+                                    _scopeLabel(m.scope, l10n)!,
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelSmall

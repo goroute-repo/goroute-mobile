@@ -34,7 +34,7 @@ void main() {
               data: {
                 'source': 'managed',
                 'scope': 'in_track',
-                'summary': 'Focus on React',
+                'summary': 'Focus on React. Start the React node',
                 'intro': 'Next step',
                 'diagnosis': ['Close React gap'],
                 'immediateAction': 'Start the React node',
@@ -48,8 +48,9 @@ void main() {
     final answer =
         await repo.analyze(question: 'What should I learn next?');
     expect(answer.scope, 'in_track');
-    expect(answer.summary, 'Focus on React');
+    expect(answer.summary, 'Focus on React. Start the React node');
     expect(answer.displayText, contains('Start the React node'));
+    expect(answer.displayText, contains('Close React gap'));
   });
 
   test('MentorAnswer.fromJson tolerates missing optional fields', () {

@@ -168,6 +168,7 @@ class HomePage extends ConsumerWidget {
                                 icon: Icons.schedule_outlined,
                                 label: l10n.etaWeeks,
                                 value: '${data.weeksToGoal}',
+                                accent: true,
                               ),
                             ),
                           ],
@@ -185,6 +186,48 @@ class HomePage extends ConsumerWidget {
   }
 }
 
+List<TrailNode> _trailNodesAround(
+  List<RoadmapNodeSummary> nodes, {
+  int maxVisible = 6,
+}) {
+  TrailMarkerState stateFor(String? state) {
+    switch (state) {
+      case 'completed':
+        return TrailMarkerState.done;
+      case 'in_progress':
+      case 'recommended':
+        return TrailMarkerState.current;
+      default:
+        return TrailMarkerState.upcoming;
+    }
+  }
+
+  if (nodes.isEmpty) return const [];
+
+  final mapped = [
+    for (final n in nodes) TrailNode(label: n.label, state: stateFor(n.state)),
+  ];
+
+  final currentIndex = mapped.indexWhere(
+    (n) => n.state == TrailMarkerState.current,
+  );
+  if (currentIndex < 0 || mapped.length <= maxVisible) {
+    return mapped.take(maxVisible).toList();
+  }
+
+  // Centraliza a janela no marco atual, com um pouco de "caminho percorrido"
+  // antes dele — é o trecho mais relevante para "onde estou agora".
+  final before = (maxVisible / 3).floor();
+  var start = currentIndex - before;
+  if (start < 0) start = 0;
+  var end = start + maxVisible;
+  if (end > mapped.length) {
+    end = mapped.length;
+    start = (end - maxVisible).clamp(0, mapped.length).toInt();
+  }
+  return mapped.sublist(start, end);
+}
+
 class _ProgressHero extends StatelessWidget {
   const _ProgressHero({required this.data, required this.l10n});
 
@@ -194,40 +237,37 @@ class _ProgressHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final trailNodes = _trailNodesAround(data.nodes);
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Row(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProgressRing(percent: data.percentDone),
-            const SizedBox(width: 18),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    l10n.dashboardOverview,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                        ),
+            Text(
+              l10n.dashboardOverview,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: scheme.onSurfaceVariant,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    data.targetRoleLabel ?? l10n.yourTrack,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w800,
-                        ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    l10n.homeSubtitle,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                        ),
-                  ),
-                ],
-              ),
             ),
+            const SizedBox(height: 4),
+            Text(
+              data.targetRoleLabel ?? l10n.yourTrack,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              l10n.homeSubtitle,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+            ),
+            if (trailNodes.isNotEmpty) ...[
+              const SizedBox(height: 18),
+              RoadmapTrail(nodes: trailNodes, percent: data.percentDone),
+            ],
           ],
         ),
       ),
@@ -280,15 +320,20 @@ class _StatChip extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.value,
+    this.accent = false,
   });
 
   final IconData icon;
   final String label;
   final String value;
+  // Âmbar reservado para a estatística ligada a "quando eu chego lá" —
+  // conquista futura, não dado neutro.
+  final bool accent;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final tint = accent ? scheme.tertiary : scheme.primary;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
@@ -300,7 +345,7 @@ class _StatChip extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(icon, size: 22, color: scheme.primary),
+          Icon(icon, size: 22, color: tint),
           const SizedBox(width: 10),
           Expanded(
             child: Column(

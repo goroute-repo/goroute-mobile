@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:goroute_mobile/core/network/error_mapper.dart';
 import 'package:goroute_mobile/core/providers/core_providers.dart';
 import 'package:goroute_mobile/core/widgets/feature_error.dart';
@@ -153,6 +154,22 @@ class _RoadmapNodePageState extends ConsumerState<RoadmapNodePage> {
                   ),
                 ),
               ],
+              if (node.skills.isNotEmpty) ...[
+                const SizedBox(height: 24),
+                Text(
+                  l10n.skillsTitle,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  children: node.skills.map((s) => Chip(label: Text(s))).toList(),
+                ),
+              ],
+              for (final t in node.skillTracks) _SkillTrackSection(track: t),
               const SizedBox(height: 20),
               OutlinedButton.icon(
                 onPressed: () => context.push(
@@ -216,5 +233,84 @@ class _RoadmapNodePageState extends ConsumerState<RoadmapNodePage> {
       default:
         return state ?? l10n.nodeStateUnknown;
     }
+  }
+}
+
+
+class _SkillTrackSection extends StatelessWidget {
+  const _SkillTrackSection({required this.track});
+
+  final SkillTrack track;
+
+  static const _levels = ['beginner', 'intermediate', 'advanced'];
+
+  String _levelLabel(AppLocalizations l10n, String level) => switch (level) {
+        'beginner' => l10n.levelBeginner,
+        'intermediate' => l10n.levelIntermediate,
+        _ => l10n.levelAdvanced,
+      };
+
+  IconData _icon(String kind) => switch (kind) {
+        'video' => Icons.play_circle_outline,
+        'course' => Icons.school_outlined,
+        'lab' => Icons.science_outlined,
+        'article' => Icons.article_outlined,
+        _ => Icons.menu_book_outlined,
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${l10n.skillTrackTitle} · ${track.label}',
+            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+          ),
+          for (final r in track.resources)
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              leading: Icon(_icon(r.kind)),
+              title: Text(r.title),
+              trailing: const Icon(Icons.open_in_new, size: 18),
+              onTap: () => launchUrl(
+                Uri.parse(r.url),
+                mode: LaunchMode.externalApplication,
+              ),
+            ),
+          for (final level in _levels)
+            if (track.projects[level] != null)
+              Card(
+                margin: const EdgeInsets.only(top: 8),
+                child: ExpansionTile(
+                  title: Text(track.projects[level]!.title),
+                  subtitle: Text('${l10n.learnByDoing} · ${_levelLabel(l10n, level)}'),
+                  childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(track.projects[level]!.brief),
+                    for (final c in track.projects[level]!.criteria)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.check_circle_outline, size: 16),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text(c)),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+        ],
+      ),
+    );
   }
 }

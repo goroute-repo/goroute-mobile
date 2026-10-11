@@ -1033,6 +1033,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notes'**
   String get nodeNotes;
+
+  /// No description provided for @noAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get noAccount;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get createAccount;
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get signUpTitle;
+
+  /// No description provided for @signUpSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take your career roadmap with you.'**
+  String get signUpSubtitle;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get confirmPassword;
+
+  /// No description provided for @acceptTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve read and accept the Terms of Use and the Privacy Policy.'**
+  String get acceptTerms;
+
+  /// No description provided for @signingUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating account…'**
+  String get signingUp;
+
+  /// No description provided for @errorWeakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters.'**
+  String get errorWeakPassword;
+
+  /// No description provided for @errorEmailInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already registered.'**
+  String get errorEmailInUse;
+
+  /// No description provided for @errorTermsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to accept the terms to continue.'**
+  String get errorTermsRequired;
+
+  /// No description provided for @passwordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords don\'t match.'**
+  String get passwordMismatch;
+
+  /// No description provided for @accountCreatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created! Sign in to continue.'**
+  String get accountCreatedSuccess;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get backToLogin;
+
+  /// No description provided for @aiManagedNotEntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Mentor (managed) requires the Weekly plan subscription.'**
+  String get aiManagedNotEntitled;
+
+  /// No description provided for @mentorScopeInTrack.
+  ///
+  /// In en, this message translates to:
+  /// **'On your track'**
+  String get mentorScopeInTrack;
+
+  /// No description provided for @mentorScopeSoftSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft skill'**
+  String get mentorScopeSoftSkills;
+
+  /// No description provided for @mentorScopeOutOfScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside your track'**
+  String get mentorScopeOutOfScope;
+
+  /// No description provided for @skillsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills'**
+  String get skillsTitle;
+
+  /// No description provided for @skillTrackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical track'**
+  String get skillTrackTitle;
+
+  /// No description provided for @learnByDoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn by Doing'**
+  String get learnByDoing;
+
+  /// No description provided for @levelBeginner.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner'**
+  String get levelBeginner;
+
+  /// No description provided for @levelIntermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get levelIntermediate;
+
+  /// No description provided for @levelAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get levelAdvanced;
 }
 
 class _AppLocalizationsDelegate

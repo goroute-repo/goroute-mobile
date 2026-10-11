@@ -35,22 +35,22 @@ class MentorAnswer {
     );
   }
 
+  /// `summary` já vem composta pelo backend (intro + immediateAction +
+  /// roadmapLink, ver `composeMentorSummary` em goroute-api) — é o mesmo
+  /// texto único que o frontend web mostra na bolha de chat. Repetir
+  /// `intro`/`immediateAction` aqui por cima duplicava o conteúdo.
   String get displayText {
     final buf = StringBuffer();
-    if (intro != null && intro!.isNotEmpty) {
+    if (summary.isNotEmpty) {
+      buf.writeln(summary);
+    } else if (intro != null && intro!.isNotEmpty) {
       buf.writeln(intro);
-      buf.writeln();
     }
-    if (summary.isNotEmpty) buf.writeln(summary);
     if (diagnosis.isNotEmpty) {
       buf.writeln();
       for (final d in diagnosis) {
         buf.writeln('• $d');
       }
-    }
-    if (immediateAction != null && immediateAction!.isNotEmpty) {
-      buf.writeln();
-      buf.writeln(immediateAction);
     }
     if (warning != null && warning!.isNotEmpty) {
       buf.writeln();
